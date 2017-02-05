@@ -8,6 +8,24 @@
       "transactions": [],
       "createdAt": 1486251300528,
       "friendUsernames": []
+    },
+    {
+      "username": "avik",
+      "name": "Avik Jain",
+      "password": "jain",
+      "score": 0,
+      "transactions": [],
+      "createdAt": 1486257092438,
+      "friendUsernames": []
+    },
+    {
+      "username": "duancaro",
+      "name": "carolyn duan",
+      "password": "i<3avik",
+      "score": 0,
+      "transactions": [],
+      "createdAt": 1486257125806,
+      "friendUsernames": []
     }
   ],
   "transactions": []
