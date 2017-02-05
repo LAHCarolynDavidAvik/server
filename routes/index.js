@@ -55,6 +55,22 @@ router.get('/login', (req, res) => {
   res.send(404);
 });
 
+router.post('/add_transaction', (req, res) => {
+  db.get('transactions')
+    .push({
+      lender: req.body.lender,
+      debtor: req.body.debtor,
+      quantity: req.body.quantity,
+      description: req.body.description,
+      deadline: req.body.deadline,
+      interest: req.body.interest,
+      createdAt: Date.now(),
+      status: 0
+    }).value();
+  res.sendStatus(200);
+});
+
+//router.get('/user_transactions')
 module.exports = router;
 
 // helper functions
