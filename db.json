@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "username": "avik",
+      "name": "Avik Jain",
+      "password": "jain",
+      "score": 0,
+      "transactions": [],
+      "createdAt": 1486251300528,
+      "friendUsernames": []
+    }
+  ],
+  "transactions": []
+}
