@@ -32,14 +32,36 @@
     }
   ],
   "transactions": [{
-      "lender": "a",
+      "lender": "avik",
       "debtor": "duancaro",
-      "quantity": 200,
-      "description": "asdfasdfasdfasdf",
+      "quantity": 1200,
+      "description": "Movie tickets",
       "deadline": 1486277402806,
       "interest": 0,
       "createdAt": 1486274085482,
-      "id": "rJ6mAVNde",
+      "id": "fuckmyass",
       "status": 1
-    }]
+    }, {
+      "lender": "avik",
+      "debtor": "duancaro",
+      "quantity": 500,
+      "description": "lent money for lunch",
+      "deadline": 2000,
+      "interest": 0,
+      "createdAt": 1000,
+      "datePaid": 3000,
+      "id": "rJ6mAVNde",
+      "status": 2
+    }, {
+      "lender": "duancaro",
+      "debtor": "avik",
+      "quantity": 275,
+      "description": "Quickly food.",
+      "deadline": 2000,
+      "interest": 0,
+      "createdAt": 1000,
+      "datePaid": 3000,
+      "id": "rJ6mAVNde",
+      "status": 2
+    },]
 }
