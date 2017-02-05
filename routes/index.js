@@ -27,14 +27,36 @@ router.post('/signup', (req, res) => {
   res.sendStatus(200);
 });
 
+router.post('/add_friend', (req, res) => {
+  console.log(req.body.username, req.body.friendUsername);
+  if(!db.get('users').find({username: req.body.username}).value() 
+    || !db.get('users').find({username: req.body.friendUsername}).value())
+    res.sendStatus(404);
+  db.get('users')
+    .find({ username: req.body.username })
+    .get('friendUsernames')
+    .push(req.body.friendUsername).value();
+  res.sendStatus(200);
+});
+
 router.get('/login', (req, res) => {
   const user = db.get('users').find({ 
-    username: req.query.username
+    username: req.query.username,
+    password: req.query.password
   }).value();
   console.log(user);
-  if(user)
-    return res.json(user);
+  if(user) {
+    return res.json(populateUser(user));
+  }
   res.send(404);
 });
 
 module.exports = router;
+
+// helper functions
+function populateUser(user) {
+  var result = Object.assign({}, user);
+  result.friends = user.friendUsernames
+    .map(friendUsername => db.get('users').find({ username: friendUsername }).value());
+  return result;
+}
