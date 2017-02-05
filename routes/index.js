@@ -3,6 +3,8 @@ var express = require('express');
 var router = express.Router();
 var low = require('lowdb');
 var db = low(`${__dirname}/../db.json`);
+var shortid = require('shortid');
+const status = require('./status');
 console.log(JSON.stringify(db.getState()));
 db.defaults(require('./dbDefaults'))
   .value()
@@ -46,7 +48,7 @@ router.post('/add_friend', (req, res) => {
 router.get('/login', (req, res) => {
   const user = db.get('users').find({ 
     username: req.query.username,
-    password: req.query.password
+    //password: req.query.password
   }).value();
   console.log(user);
   if(user) {
@@ -63,13 +65,39 @@ router.post('/add_transaction', (req, res) => {
       quantity: req.body.quantity,
       description: req.body.description,
       deadline: req.body.deadline,
-      interest: req.body.interest,
+      interest: req.body.interest, 
       createdAt: Date.now(),
+      id: shortid.generate(),
       status: 0
     }).value();
   res.sendStatus(200);
 });
 
+router.get('/transactions', (req, res) => {
+  var allTransactions = db.get('transactions').value();
+  var lent = [];
+  var owed = [];
+  var unconfirmed = [];
+  allTransactions.forEach((transaction) => {
+    console.log('TESTING: '+JSON.stringify(transaction));
+    if(transaction.lender == req.query.username && transaction.status != status.UNCONFIRMED)
+      lent.push(transaction);
+    else if(transaction.debtor == req.query.username && transaction.status != status.UNCONFIRMED)
+      owed.push(transaction);
+    else if(transaction.debtor == req.query.username && transaction.status == status.UNCONFIRMED)
+      unconfirmed.push(transaction);
+  });
+  res.json({
+    lent: lent,
+    owed: owed,
+    unconfirmed: unconfirmed
+  })
+});
+
+router.post('/confirm_transaction', (req, res) => {
+  db.get('transactions').find({id: req.body.id}).set('status', status.UNPAID).value();
+  res.send(200);
+});
 //router.get('/user_transactions')
 module.exports = router;
 
