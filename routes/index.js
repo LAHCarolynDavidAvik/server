@@ -4,7 +4,7 @@ var router = express.Router();
 var low = require('lowdb');
 var db = low(`${__dirname}/../db.json`);
 console.log(JSON.stringify(db.getState()));
-db.defaults({ users: [], transactions: [] })
+db.defaults(require('./dbDefaults'))
   .value()
 
 /* GET home page. */
@@ -36,6 +36,10 @@ router.post('/add_friend', (req, res) => {
     .find({ username: req.body.username })
     .get('friendUsernames')
     .push(req.body.friendUsername).value();
+  db.get('users')
+    .find({ username: req.body.friendUsername })
+    .get('friendUsernames')
+    .push(req.body.username).value();
   res.sendStatus(200);
 });
 

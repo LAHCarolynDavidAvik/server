@@ -19,9 +19,7 @@
       "score": 0,
       "transactions": [],
       "createdAt": 1486257125806,
-      "friendUsernames": [
-        "avik"
-      ]
+      "friendUsernames": ["avik"]
     },
     {
       "username": "a",
@@ -30,9 +28,7 @@
       "score": 0,
       "transactions": [],
       "createdAt": 1486257125806,
-      "friendUsernames": [
-        "avik"
-      ]
+      "friendUsernames": ["avik"]
     }
   ],
   "transactions": []
