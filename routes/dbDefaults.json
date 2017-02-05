@@ -32,7 +32,7 @@
     }
   ],
   "transactions": [{
-      "lender": "avik",
+      "lender": "a",
       "debtor": "duancaro",
       "quantity": 200,
       "description": "asdfasdfasdfasdf",
