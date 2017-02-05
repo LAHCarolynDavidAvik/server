@@ -12,8 +12,9 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.OPENSHIFT_NODEJS_PORT || process.argv[3] || '3000');
-var host = process.env.OPENSHIFT_NODEJS_IP || process.argv[2] || 'localhost';
+var port = normalizePort(process.env.OPENSHIFT_NODEJS_PORT || '3000');
+var host = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
+console.log(`${host}:${port}`)
 app.set('port', port);
 app.set('host', host);
 
