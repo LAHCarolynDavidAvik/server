@@ -5,6 +5,7 @@ var low = require('lowdb');
 var db = low(`${__dirname}/../db.json`);
 var shortid = require('shortid');
 const status = require('./status');
+var computeScore = require('./computeScore');
 console.log(JSON.stringify(db.getState()));
 db.defaults(require('./dbDefaults'))
   .value()
@@ -108,7 +109,8 @@ router.post('/confirm_transaction', (req, res) => {
 router.post('/complete_transaction', (req, res) => {
   db.get('transactions')
     .find({id: req.body.id})
-    .set('status', status.PAID);
+    .set('status', status.PAID)
+    .set('datePaid', Date.now());
   res.sendStatus(200);
 })
 
@@ -121,5 +123,6 @@ function populateUser(user) {
   var result = Object.assign({}, user);
   result.friends = user.friendUsernames
     .map(friendUsername => db.get('users').find({ username: friendUsername }).value());
+  result.score = computeScore(db.get('transactions').value(), user.username);
   return result;
 }
