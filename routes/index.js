@@ -9,11 +9,12 @@ console.log(JSON.stringify(db.getState()));
 db.defaults(require('./dbDefaults'))
   .value()
 
-/* GET home page. */
+/* GET home page. IM TOO LAZY TO DELETE */
 router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'fuck you' });
 });
 
+// adds a user
 router.post('/signup', (req, res) => {
   db.get('users')
     .push({
@@ -29,6 +30,7 @@ router.post('/signup', (req, res) => {
   res.sendStatus(200);
 });
 
+// fuck this
 router.post('/add_friend', (req, res) => {
   console.log(req.body.username, req.body.friendUsername);
   if(!db.get('users').find({username: req.body.username}).value() 
@@ -45,6 +47,7 @@ router.post('/add_friend', (req, res) => {
   res.sendStatus(200);
 });
 
+// look up user by username
 router.get('/login', (req, res) => {
   const user = db.get('users').find({ 
     username: req.query.username,
@@ -57,6 +60,7 @@ router.get('/login', (req, res) => {
   res.send(404);
 });
 
+// adds a new transaction
 router.post('/add_transaction', (req, res) => {
   db.get('transactions')
     .push({
@@ -73,13 +77,13 @@ router.post('/add_transaction', (req, res) => {
   res.sendStatus(200);
 });
 
+// retrieves all transactions in which a user is involved
 router.get('/transactions', (req, res) => {
   var allTransactions = db.get('transactions').value();
   var lent = [];
   var owed = [];
   var unconfirmed = [];
   allTransactions.forEach((transaction) => {
-    console.log('TESTING: '+JSON.stringify(transaction));
     if(transaction.lender == req.query.username && transaction.status != status.UNCONFIRMED)
       lent.push(transaction);
     else if(transaction.debtor == req.query.username && transaction.status != status.UNCONFIRMED)
@@ -94,10 +98,21 @@ router.get('/transactions', (req, res) => {
   })
 });
 
+// debtor confirms that they are now in debt
 router.post('/confirm_transaction', (req, res) => {
   db.get('transactions').find({id: req.body.id}).set('status', status.UNPAID).value();
-  res.send(200);
+  res.sendStatus(200);
 });
+
+// lender confirms that the debt has been paid back
+router.post('/complete_transaction', (req, res) => {
+  db.get('transactions')
+    .find({id: req.body.id})
+    .set('status', status.PAID);
+  res.sendStatus(200);
+})
+
+
 //router.get('/user_transactions')
 module.exports = router;
 
